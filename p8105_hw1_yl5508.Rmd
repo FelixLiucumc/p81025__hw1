@@ -1,0 +1,34 @@
+---
+title: "p8105_hw1_yl5508"
+author: "Felix LIU"
+output:
+  html_document:
+   toc: TRUE
+   toc_float: TRUE
+   code_folding: hide
+---
+
+It's a proj for HW1 about BUILDING BLOCKS.
+
+```{r, echo = FALSE}
+library(tidyverse)
+```
+
+## Q1
+
+Before we start, we need to download the dataset by `install.packages("moderndive")`.
+
+```{r, echo = FALSE}
+library(moderndive)
+data("early_january_weather")
+```
+
+We can use `view(early_january_weather)` and `?early_january_weather` to check data info.  
+
+**Data Info**:  
+**(a) overview:** Hourly meterological data for LGA, JFK and EWR for the month of January 2013. This is a subset of the weather data frame from nycflights13.  
+**(b) variables:** `origin` is weather station, `year, month, day, hour` is time of recording. Then, there are some weather index variables, like `temp(temperature in F)`, `dewp(dewpoint)`, `humid(ralative humidity)`, `wind_dir(Wind direction in degrees)`, `wind_speed(in mph)`, `wind_gust(gust speed in mph)`, `precip(precipitation in inches)`, `pressure(sea level pressure in millibars)`, `visib(visibility in miles)`, `time_hour(Date and hour of the recording)`.
+**(c) the size of dataset** is `r nrow(early_january_weather)` X `r ncol(early_january_weather)`.  
+**(d) the average temperature** is `r round(mean(early_january_weather$temp), 1)`.  
+
+
