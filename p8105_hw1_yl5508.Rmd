@@ -10,25 +10,48 @@ output:
 
 It's a proj for HW1 about BUILDING BLOCKS.
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, message = FALSE}
 library(tidyverse)
 ```
 
 ## Q1
 
-Before we start, we need to download the dataset by `install.packages("moderndive")`.
+### Q1.1 DATA OVERVIEW
+
+Before we start, we need to download the dataset by `install.packages("moderndive")`.  
+
+Use `library(moderndive)` and `data("early_january_weather")` to load the data.  
 
 ```{r, echo = FALSE}
 library(moderndive)
 data("early_january_weather")
 ```
 
-We can use `view(early_january_weather)` and `?early_january_weather` to check data info.  
+Then, use `view(early_january_weather)` and `?early_january_weather` to check data info.  
 
 **Data Info**:  
 **(a) overview:** Hourly meterological data for LGA, JFK and EWR for the month of January 2013. This is a subset of the weather data frame from nycflights13.  
 **(b) variables:** `origin` is weather station, `year, month, day, hour` is time of recording. Then, there are some weather index variables, like `temp(temperature in F)`, `dewp(dewpoint)`, `humid(ralative humidity)`, `wind_dir(Wind direction in degrees)`, `wind_speed(in mph)`, `wind_gust(gust speed in mph)`, `precip(precipitation in inches)`, `pressure(sea level pressure in millibars)`, `visib(visibility in miles)`, `time_hour(Date and hour of the recording)`.
 **(c) the size of dataset** is `r nrow(early_january_weather)` X `r ncol(early_january_weather)`.  
-**(d) the average temperature** is `r round(mean(early_january_weather$temp), 1)`.  
+**(d) the average temperature** is `r round(mean(early_january_weather$temp), 1)`.
+
+### Q1.2 SCATTERPLOT
+
+We can get a scatter plot (temp vs time_hour) from the dataset.  
+Specifically, `ggplot()` and `geom_point()` is used to depict basic scatter plot (color in humid), `geom_smooth()` is to generate a fitted curve of the scatter plot.  
+Then, the plot is saved as "scatterplot_yl5508.png".
+
+```{r yx_scatter, message = FALSE}
+ggplot(early_january_weather, aes(x = time_hour, y = temp, color = "humid")) + 
+  geom_point() + 
+  geom_smooth(span = 0.1, color = "lightgray") + 
+  scale_x_datetime(date_breaks = "3 days") + 
+  ggtitle("scatterplot of temp (y) vs time_hour (x)") + 
+  theme(plot.title = element_text(hjust = 0.5), legend.position = "NONE")
+ggsave("scatterplot_yl5508.png")
+```
+
+
+
 
 
