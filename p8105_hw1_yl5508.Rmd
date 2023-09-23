@@ -1,10 +1,8 @@
 ---
 title: "p8105_hw1_yl5508"
 author: "Felix LIU"
-output:
-  html_document:
-   toc: TRUE
-   toc_float: TRUE
+date: 2023/9/23
+output: github_document
 ---
 
 It's a proj for HW1 about BUILDING BLOCKS.
@@ -76,7 +74,7 @@ q2_df =
 q2_df
 ```
 
-The average of these four objects repectively are `r mean(q2_df %>% pull(a_samp))`, `r mean(q2_df %>% pull(log_vec))`, `r mean(q2_df %>% pull(b_vec))`, `r mean(q2_df %>% pull(fac_vec))`.  
+The average of these four objects respectively are `r mean(pull(q2_df, a_samp))`, `r mean(pull(q2_df, log_vec))`, `r mean(pull(q2_df, b_vec))`, `r mean(pull(q2_df, fac_vec))`.  
 
 ### Q2.2 DATA CONVERSION
 
@@ -88,7 +86,8 @@ as.numeric(pull(q2_df, b_vec))
 as.numeric(pull(q2_df, fac_vec))
 ```
 
-Only data type character cannot be convert to numeric type. As a result, there's no way we can use to calculate the mean of the variable.
+Only data type character cannot be convert to numeric type. As a result, there's no way we can use to calculate the mean of the variable.  
 
+For logical variables and factor variables, we can convert them to numeric variables. Then, we can respectively calculate the mean of the variables, which are `r mean(as.numeric(pull(q2_df, log_vec)))` and `r mean(as.numeric(pull(q2_df, fac_vec)))`.
 
 
