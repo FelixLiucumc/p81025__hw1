@@ -5,7 +5,6 @@ output:
   html_document:
    toc: TRUE
    toc_float: TRUE
-   code_folding: hide
 ---
 
 It's a proj for HW1 about BUILDING BLOCKS.
@@ -22,16 +21,21 @@ Before we start, we need to download the dataset by `install.packages("moderndiv
 
 Use `library(moderndive)` and `data("early_january_weather")` to load the data.  
 
-```{r, echo = FALSE}
+```{r}
 library(moderndive)
 data("early_january_weather")
 ```
 
-Then, use `view(early_january_weather)` and `?early_january_weather` to check data info.  
+Then, we can use `names(early_january_weather)`, `summary(early_january_weather)`, `view(early_january_weather)` and `?early_january_weather` to see some details of the dataset.  
+
+```{r}
+names(early_january_weather)
+summary(early_january_weather)
+```
 
 **Data Info**:  
 **(a) overview:** Hourly meterological data for LGA, JFK and EWR for the month of January 2013. This is a subset of the weather data frame from nycflights13.  
-**(b) variables:** `origin` is weather station, `year, month, day, hour` is time of recording. Then, there are some weather index variables, like `temp(temperature in F)`, `dewp(dewpoint)`, `humid(ralative humidity)`, `wind_dir(Wind direction in degrees)`, `wind_speed(in mph)`, `wind_gust(gust speed in mph)`, `precip(precipitation in inches)`, `pressure(sea level pressure in millibars)`, `visib(visibility in miles)`, `time_hour(Date and hour of the recording)`.
+**(b) variables:** `origin` is about the weather station, `year, month, day, hour` is time of recording. Then, there are some weather index variables, like `temp(temperature in F)`, `dewp(dewpoint)`, `humid(ralative humidity)`, `wind_dir(Wind direction in degrees)`, `wind_speed(in mph)`, `wind_gust(gust speed in mph)`, `precip(precipitation in inches)`, `pressure(sea level pressure in millibars)`, `visib(visibility in miles)`, `time_hour(Date and hour of the recording)`. Value in variables is shown in the `summary(early_january_weather)` part.  
 **(c) the size of dataset** is `r nrow(early_january_weather)` X `r ncol(early_january_weather)`.  
 **(d) the average temperature** is `r round(mean(early_january_weather$temp), 1)`.
 
@@ -42,16 +46,22 @@ Specifically, `ggplot()` and `geom_point()` is used to depict basic scatter plot
 Then, the plot is saved as "scatterplot_yl5508.png".
 
 ```{r yx_scatter, message = FALSE}
-ggplot(early_january_weather, aes(x = time_hour, y = temp, color = "humid")) + 
+ggplot(early_january_weather, aes(x = time_hour, y = temp, color = humid)) + 
   geom_point() + 
-  geom_smooth(span = 0.1, color = "lightgray") + 
+  geom_smooth(span = 0.1, se = FALSE, color = "lightgray") + 
   scale_x_datetime(date_breaks = "3 days") + 
   ggtitle("scatterplot of temp (y) vs time_hour (x)") + 
-  theme(plot.title = element_text(size = 15, face = "bold", hjust = 0.5), legend.position = "NONE")
+  theme(plot.title = element_text(size = 15, face = "bold", hjust = 0.5))
 ggsave("scatterplot_yl5508.png")
 ```
 
+**Scatter Plot Description:**  
+**(a)** Daily Temperature Fluctuations: temperatures peak around noon, while they are low during the early morning and at night resembling a valley-like pattern.  
+**(b)** Temperature Variations Across Different Dates: As the dates progress from early January to mid-January, the season gradually transitions into spring, with an overall increase in temperature. This is reflected as an upward trend in temperature over time.  
+**(c)** Correlation Between Humidity level and Temperature: Overall, humidity tends to be lower around noon, which may be related to temperature, meaning that higher temperatures are associated with lower humidity levels. Additionally, during periods of significant temperature increase, humidity levels are generally higher, possibly influenced by warm and moist air currents.  
+
 ## Q2 DATAFRAME
+### Q2.1 DATA COERCION
 
 Here we generate a dataframe `q2_df` of 4 different data types. The name of the data and vectors are `a_samp(std normal distribution)`, `log_vector(logical vector)`, `b_vec(character vector)`, `fac_vec(factor vector)`.
 
@@ -61,18 +71,24 @@ q2_df =
   a_samp = rnorm(10),
   log_vec = a_samp > 0,
   b_vec = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J"),
-  fac_vec = factor(c("I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"), levels = c("a", "b", "c"))
+  fac_vec = factor(c("a", "a", "a", "a", "b", "b", "b", "c", "c", "c"))
 )
+q2_df
 ```
 
 The average of these four objects repectively are `r mean(q2_df %>% pull(a_samp))`, `r mean(q2_df %>% pull(log_vec))`, `r mean(q2_df %>% pull(b_vec))`, `r mean(q2_df %>% pull(fac_vec))`.  
 
-```{r, eval = FALSE, message = FALSE}
-as.numeric(q2_df %>% pull(log_vec))
-as.numeric(q2_df %>% pull(b_vec))
-as.numeric(q2_df %>% pull(fac_vec))
+### Q2.2 DATA CONVERSION
+
+Then we try to convert variables from one type to another.  
+
+```{r, results = 'hide', warning = FALSE}
+as.numeric(pull(q2_df, log_vec))
+as.numeric(pull(q2_df, b_vec))
+as.numeric(pull(q2_df, fac_vec))
 ```
 
+Only data type character cannot be convert to numeric type. As a result, there's no way we can use to calculate the mean of the variable.
 
 
 
